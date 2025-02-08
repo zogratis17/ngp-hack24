@@ -1,33 +1,6 @@
-# Ignore virtual environment files
-venv/
-.env/
+# Ignore .env files
+.env
 .env*/
 
-# Ignore Python cache and build files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pyc
-*.egg-info/
-dist/
-build/
-
-# Ignore IDE-specific files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Ignore log files
-*.log
-
-# Ignore system files
-.DS_Store
-Thumbs.db
-
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Ignore local development files
-local_settings.py
+# Ignore virtual environment
+venv/
