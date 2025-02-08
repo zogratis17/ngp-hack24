@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Upload - CareerCrux</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>ATS-Friendly Resume Analyzer</h1>
+    </header>
+
+    <section class="resume-section">
+        <p>Upload your resume & job description to receive AI-driven suggestions.</p>
+        <input type="file" id="resumeUpload">
+        <textarea id="jobDescription" placeholder="Paste Job Description Here"></textarea>
+        <button onclick="analyzeResume()">Submit</button>
+        <p id="resumeFeedback"></p>
+        <a href="aibot.html" class="btn">Next</a>
+    </section>
+</body>
+</html>

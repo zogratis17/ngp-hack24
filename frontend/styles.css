@@ -1,0 +1,50 @@
+body {
+    font-family: 'Righteous', sans-serif;
+    background-color: #caf0f8;
+    color: #03045e;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0077b6;
+    padding: 1rem;
+    color: white;
+}
+
+.hero, .resume-section, .chat-container, .mock-interview, .feedback-section {
+    padding: 2rem;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #00b4d8;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #0077b6;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chat-container, #chatbox {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
