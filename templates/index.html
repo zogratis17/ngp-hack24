@@ -16,11 +16,18 @@
             <input type="file" id="resumeUpload" accept=".pdf">
             <button id="uploadBtn">Upload Resume</button>
             <p id="uploadStatus"></p>
+            <!-- ATS Score and Feedback -->
+            <div id="resumeAnalysis" style="display: none;">
+                <h3>Resume Analysis</h3>
+                <p><strong>ATS Score:</strong> <span id="atsScore"></span></p>
+                <p><strong>Feedback:</strong> <span id="resumeFeedback"></span></p>
+                <p><strong>Overall Rating:</strong> <span id="overallRating"></span></p>
+            </div>
         </div>
 
         <!-- Step 2: Job Role Input -->
         <div class="section">
-            <h2>Step 2: Enter Job Role</h2>
+            <h2>Step 2: Enter Job Role : Company </h2>
             <input type="text" id="jobRole" placeholder="Enter job role...">
             <button id="setJobRoleBtn">Set Job Role</button>
             <p id="jobRoleStatus"></p>

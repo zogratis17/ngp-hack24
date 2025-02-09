@@ -21,6 +21,13 @@ document.getElementById("uploadBtn").addEventListener("click", async () => {
                 resumeText = data.resume_text;
                 document.getElementById("uploadStatus").textContent = "Resume uploaded successfully!";
                 console.log("Resume text extracted:", resumeText);
+
+                // Display ATS Score and Feedback
+                const analysis = data.analysis;
+                document.getElementById("atsScore").textContent = analysis.ats_score;
+                document.getElementById("resumeFeedback").textContent = analysis.feedback;
+                document.getElementById("overallRating").textContent = analysis.overall_rating;
+                document.getElementById("resumeAnalysis").style.display = "block";
             } else {
                 document.getElementById("uploadStatus").textContent = "Error uploading resume.";
             }
@@ -118,22 +125,12 @@ document.getElementById("submitResponseBtn").addEventListener("click", async () 
             const feedback = await generateFeedback(question, userInput);
             const feedbackElement = document.createElement("div");
             feedbackElement.innerHTML = `<h3>Feedback:</h3><pre>${feedback}</pre>`;
+            document.getElementById("feedbackSection").innerHTML = ""; // Clear previous feedback
             document.getElementById("feedbackSection").appendChild(feedbackElement);
         }
     } catch (error) {
         console.error("Error submitting response:", error);
         alert("Error submitting response. Please try again.");
-    }
-});
-
-// Real-time feedback as the user types
-document.getElementById("userResponse").addEventListener("input", async (event) => {
-    const userInput = event.target.value;
-    const question = document.getElementById("interviewerQuestion").textContent;
-
-    if (userInput.length > 10) {  // Only generate feedback if the response is long enough
-        const feedback = await generateFeedback(question, userInput);
-        document.getElementById("feedbackSection").innerHTML = `<h3>Feedback:</h3><pre>${feedback}</pre>`;
     }
 });
 

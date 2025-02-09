@@ -54,7 +54,7 @@ pre {
     overflow-x: auto;
 }
 
-#feedbackSection {
+#feedbackSection, #resumeAnalysis {
     margin-top: 20px;
     padding: 10px;
     background-color: #f9f9f9;
