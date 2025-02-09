@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual HR - Mock Interview Simulator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1> Mock Interview Simulator</h1>
+
+        <!-- Step 1: Resume Upload -->
+        <div class="section">
+            <h2>Step 1: Upload Your Resume</h2>
+            <input type="file" id="resumeUpload" accept=".pdf">
+            <button id="uploadBtn">Upload Resume</button>
+            <p id="uploadStatus"></p>
+            <!-- ATS Score and Feedback -->
+            <div id="resumeAnalysis" style="display: none;">
+                <h3>Resume Analysis</h3>
+                <p><strong>ATS Score:</strong> <span id="atsScore"></span></p>
+                <p><strong>Feedback:</strong> <span id="resumeFeedback"></span></p>
+                <p><strong>Overall Rating:</strong> <span id="overallRating"></span></p>
+            </div>
+        </div>
+
+        <!-- Step 2: Job Role Input -->
+        <div class="section">
+            <h2>Step 2: Enter Job Role</h2>
+            <input type="text" id="jobRole" placeholder="Enter job role...">
+            <button id="setJobRoleBtn">Set Job Role</button>
+            <p id="jobRoleStatus"></p>
+        </div>
+
+        <!-- Step 3: Mock Interview -->
+        <div class="section">
+            <h2>Step 3: Mock Interview</h2>
+            <button id="startInterviewBtn">Start Mock Interview</button>
+            <div id="interviewSection" style="display: none;">
+                <p id="interviewerQuestion"></p>
+                <textarea id="userResponse" placeholder="Your response..."></textarea>
+                <button id="submitResponseBtn">Submit Response</button>
+                <button id="stopInterviewBtn">Stop Interview</button>
+                <!-- Feedback will be displayed here -->
+                <div id="feedbackSection"></div>
+            </div>
+        </div>
+
+        <!-- Show/Hide Resume Text -->
+        <div class="section">
+            <button id="toggleResumeTextBtn">Show/Hide Extracted Resume Text</button>
+            <pre id="resumeText" style="display: none;"></pre>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
