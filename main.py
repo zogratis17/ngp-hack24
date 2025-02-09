@@ -95,6 +95,32 @@ async def submit_response(data: dict):
 
     return {"response": response_text, "chat_history": chat_history}
 
+# API endpoint to generate feedback
+@app.post("/generate-feedback")
+async def generate_feedback(data: dict):
+    user_input = data.get("user_input")
+    question = data.get("question")
+
+    if not user_input or not question:
+        raise HTTPException(status_code=400, detail="User input and question are required.")
+
+    # Generate feedback using Gemini
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    prompt = f"""Analyze the following interview response and provide feedback:
+    Question: {question}
+    Response: {user_input}
+
+    Provide feedback in the following format:
+    - What was done well: [positive feedback]
+    - What can be improved: [constructive feedback]
+    - Best way to present this answer: [suggestions]
+
+    Sentiment Analysis : [positive/negative/neutral]
+    """
+    response = model.generate_content(prompt)
+
+    return {"feedback": response.text}
+
 # Run the FastAPI app
 if __name__ == "__main__":
     import uvicorn

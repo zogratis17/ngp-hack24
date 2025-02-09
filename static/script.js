@@ -20,6 +20,7 @@ document.getElementById("uploadBtn").addEventListener("click", async () => {
             if (data.resume_text) {
                 resumeText = data.resume_text;
                 document.getElementById("uploadStatus").textContent = "Resume uploaded successfully!";
+                console.log("Resume text extracted:", resumeText);
             } else {
                 document.getElementById("uploadStatus").textContent = "Error uploading resume.";
             }
@@ -38,6 +39,7 @@ document.getElementById("setJobRoleBtn").addEventListener("click", () => {
     jobRole = document.getElementById("jobRole").value;
     if (jobRole) {
         document.getElementById("jobRoleStatus").textContent = `Job role set: ${jobRole}`;
+        console.log("Job role set:", jobRole);
     } else {
         document.getElementById("jobRoleStatus").textContent = "Please enter a job role.";
     }
@@ -70,16 +72,36 @@ document.getElementById("startInterviewBtn").addEventListener("click", async () 
     }
 });
 
+// Function to generate feedback
+async function generateFeedback(question, userInput) {
+    try {
+        const response = await fetch("/generate-feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_input: userInput, question: question }),
+        });
+
+        const data = await response.json();
+        return data.feedback;
+    } catch (error) {
+        console.error("Error generating feedback:", error);
+        return "Error generating feedback. Please try again.";
+    }
+}
+
 // Submit Response
 document.getElementById("submitResponseBtn").addEventListener("click", async () => {
     console.log("Submit Response button clicked!");
     const userInput = document.getElementById("userResponse").value;
+    const question = document.getElementById("interviewerQuestion").textContent;
+
     if (!userInput) {
         alert("Please enter your response.");
         return;
     }
 
     try {
+        // Submit the response and get the next question
         const response = await fetch("/submit-response", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -91,10 +113,27 @@ document.getElementById("submitResponseBtn").addEventListener("click", async () 
             document.getElementById("interviewerQuestion").textContent = data.response;
             chatHistory = data.chat_history;
             document.getElementById("userResponse").value = ""; // Clear input
+
+            // Generate and display feedback
+            const feedback = await generateFeedback(question, userInput);
+            const feedbackElement = document.createElement("div");
+            feedbackElement.innerHTML = `<h3>Feedback:</h3><pre>${feedback}</pre>`;
+            document.getElementById("feedbackSection").appendChild(feedbackElement);
         }
     } catch (error) {
         console.error("Error submitting response:", error);
         alert("Error submitting response. Please try again.");
+    }
+});
+
+// Real-time feedback as the user types
+document.getElementById("userResponse").addEventListener("input", async (event) => {
+    const userInput = event.target.value;
+    const question = document.getElementById("interviewerQuestion").textContent;
+
+    if (userInput.length > 10) {  // Only generate feedback if the response is long enough
+        const feedback = await generateFeedback(question, userInput);
+        document.getElementById("feedbackSection").innerHTML = `<h3>Feedback:</h3><pre>${feedback}</pre>`;
     }
 });
 
@@ -104,6 +143,7 @@ document.getElementById("stopInterviewBtn").addEventListener("click", () => {
     document.getElementById("interviewSection").style.display = "none";
     document.getElementById("interviewerQuestion").textContent = "";
     document.getElementById("userResponse").value = "";
+    document.getElementById("feedbackSection").innerHTML = ""; // Clear feedback
     chatHistory = [];
 });
 

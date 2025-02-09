@@ -52,4 +52,12 @@ pre {
     border: 1px solid #ddd;
     border-radius: 5px;
     overflow-x: auto;
-}   
+}
+
+#feedbackSection {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
