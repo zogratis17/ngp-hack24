@@ -42,7 +42,37 @@ async def upload_resume(file: UploadFile = File(...)):
 
     # Extract text from PDF
     resume_text = extract_text_from_pdf(file.file)
-    return {"resume_text": resume_text}
+
+    # Analyze the resume using Gemini API
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    prompt = f"""Analyze the following resume and provide:
+    1. ATS Score (out of 100).
+    2. Feedback on the resume.
+    3. Overall Rating (Good, Bad, Needs Improvement).
+
+    Resume:
+    {resume_text}
+
+    Provide the output in the following JSON format:
+    {{
+        "ats_score": "ATS Score",
+        "feedback": "Feedback on the resume",
+        "overall_rating": "Overall Rating"
+    }}
+    """
+    response = model.generate_content(prompt)
+
+    # Parse the response
+    try:
+        analysis = response.text  # Convert the response to a dictionary
+    except:
+        analysis = {
+            "ats_score": "N/A",
+            "feedback": "Unable to analyze the resume.",
+            "overall_rating": "N/A"
+        }
+
+    return {"resume_text": resume_text, "analysis": analysis}
 
 # API endpoint to start the mock interview
 @app.post("/start-interview")
@@ -58,7 +88,7 @@ async def start_interview(data: dict):
     chat = model.start_chat(
         history=[
             {"role": "user", "parts": f"My resume: {resume_text}"},
-            {"role": "user", "parts": f"I'm applying for the role of {job_role}. Start a mock interview."},
+            {"role": "user", "parts": f"I'm applying for the role of {job_role}. Start a mock interview. Do not mention the interviewer name."},
         ]
     )
     response = chat.send_message("Begin the interview.")
@@ -94,6 +124,30 @@ async def submit_response(data: dict):
     ]
 
     return {"response": response_text, "chat_history": chat_history}
+
+# API endpoint to generate feedback
+@app.post("/generate-feedback")
+async def generate_feedback(data: dict):
+    user_input = data.get("user_input")
+    question = data.get("question")
+
+    if not user_input or not question:
+        raise HTTPException(status_code=400, detail="User input and question are required.")
+
+    # Generate feedback using Gemini
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    prompt = f"""Analyze the following interview response and provide feedback:
+    Question: {question}
+    Response: {user_input}
+
+    Provide feedback in the following format:
+    - What was done well: [positive feedback]
+    - What can be improved: [constructive feedback]
+    - Best way to present this answer: [suggestions]
+    """
+    response = model.generate_content(prompt)
+
+    return {"feedback": response.text}
 
 # Run the FastAPI app
 if __name__ == "__main__":
